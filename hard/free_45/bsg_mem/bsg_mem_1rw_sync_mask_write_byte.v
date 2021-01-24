@@ -4,6 +4,8 @@
 // Only one read or one write may be done per cycle.
 //
 
+`include "bsg_defines.v"
+
 module bsg_mem_1rw_sync_mask_write_byte #(parameter els_p = -1
                                          ,parameter data_width_p = -1
                                          ,parameter latch_last_read_p = 0
@@ -16,9 +18,9 @@ module bsg_mem_1rw_sync_mask_write_byte #(parameter els_p = -1
   ,input                           v_i
   ,input                           w_i
   ,input [addr_width_lp-1:0]       addr_i
-  ,input [data_width_p-1:0]        data_i
-  ,input [write_mask_width_lp-1:0] write_mask_i
-  ,output [data_width_p-1:0]       data_o
+  ,input [`BSG_SAFE_MINUS(data_width_p, 1):0]        data_i
+  ,input [`BSG_SAFE_MINUS(write_mask_width_lp, 1):0] write_mask_i
+  ,output [`BSG_SAFE_MINUS(data_width_p, 1):0]       data_o
   );
 
   

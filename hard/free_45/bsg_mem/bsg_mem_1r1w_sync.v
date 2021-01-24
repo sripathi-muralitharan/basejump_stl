@@ -3,6 +3,8 @@
 // Synchronous 1 read-port and 1 write port ram.
 //
 
+`include "bsg_defines.v"
+
 module bsg_mem_1r1w_sync #(parameter width_p=-1
                          ,parameter els_p=-1
                          ,parameter addr_width_lp=`BSG_SAFE_CLOG2(els_p)
@@ -12,10 +14,10 @@ module bsg_mem_1r1w_sync #(parameter width_p=-1
     , input reset_i
     , input                     w_v_i
     , input [addr_width_lp-1:0] w_addr_i
-    , input [width_p-1:0]       w_data_i
+    , input [`BSG_SAFE_MINUS(width_p, 1):0]       w_data_i
     , input                      r_v_i
     , input [addr_width_lp-1:0]  r_addr_i
-    , output logic [width_p-1:0] r_data_o
+    , output logic [`BSG_SAFE_MINUS(width_p, 1):0] r_data_o
   );
 
   logic [els_p-1:0] v_r;

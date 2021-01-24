@@ -3,6 +3,8 @@
 // Synchronous 1-port ram.
 // Only one read or one write may be done per cycle.
 
+`include "bsg_defines.v"
+
 `define bsg_mem_1rw_sync_mask_write_bit_macro(words,bits)  \
   if (els_p == words && width_p == bits)                   \
     begin: macro                                           \
@@ -73,9 +75,9 @@ module bsg_mem_1rw_sync_mask_write_bit #(parameter width_p=-1
     , input v_i
     , input w_i
     , input [addr_width_lp-1:0] addr_i
-    , input [width_p-1:0] data_i
-    , input [width_p-1:0] w_mask_i
-    , output [width_p-1:0]  data_o
+    , input [`BSG_SAFE_MINUS(width_p, 1):0] data_i
+    , input [`BSG_SAFE_MINUS(width_p, 1):0] w_mask_i
+    , output [`BSG_SAFE_MINUS(width_p, 1):0]  data_o
     );
 
   // TODO: ADD ANY NEW RAM CONFIGURATIONS HERE
@@ -86,14 +88,20 @@ module bsg_mem_1rw_sync_mask_write_bit #(parameter width_p=-1
   `bsg_mem_1rw_sync_mask_write_bit_macro (512, 64) else
   `bsg_mem_1rw_sync_mask_write_bit_macro (128, 128) else
   `bsg_mem_1rw_sync_mask_write_bit_macro (64, 124) else
+  `bsg_mem_1rw_sync_mask_write_bit_macro (128, 124) else
   `bsg_mem_1rw_sync_mask_write_bit_macro (64, 62) else
+  `bsg_mem_1rw_sync_mask_write_bit_macro (256, 62) else
   `bsg_mem_1rw_sync_mask_write_bit_macro (64, 31) else
   `bsg_mem_1rw_sync_mask_write_bit_macro (128, 116) else
   `bsg_mem_1rw_sync_mask_write_bit_macro (64, 15) else
   `bsg_mem_1rw_sync_mask_write_bit_macro (64, 7) else
+  `bsg_mem_1rw_sync_mask_write_bit_macro (128, 7) else
   `bsg_mem_1rw_sync_mask_write_bit_macro (64, 3) else
+  `bsg_mem_1rw_sync_mask_write_bit_macro (128, 3) else
+  `bsg_mem_1rw_sync_mask_write_bit_macro (256, 3) else
   `bsg_mem_1rw_sync_mask_write_bit_macro (64, 2) else
   `bsg_mem_1rw_sync_mask_write_bit_macro (64, 1) else
+  `bsg_mem_1rw_sync_mask_write_bit_macro (256, 1) else
   `bsg_mem_1rw_sync_mask_write_bit_macro (32, 124) else
   `bsg_mem_1rw_sync_mask_write_bit_macro (128, 15) else
   
